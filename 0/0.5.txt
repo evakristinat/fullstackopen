@@ -1,0 +1,21 @@
+0.5 SPA
+
+
+selain          palvelin
+
+HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa ->
+<- HTML
+
+HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css ->
+<- main.css
+
+HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js ->
+<- spa.js
+(JS-koodia aletaan suorittaa. JS-koodi pyytää JSON-dataa)
+
+HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json ->
+<- data.json
+
+HTTP GET https://studies.cs.helsinki.fi/favicon.ico ->
+<- HTML
+

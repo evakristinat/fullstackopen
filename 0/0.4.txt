@@ -1,0 +1,28 @@
+0.4 Käyttäjä luo muistiinpanon
+
+
+selain          palvelin
+
+HTTP POST
+https://studies.cs.helsinki.fi/exampleapp/new_note ->
+(tekee POST-pyynnön, joka sisältää kenttään syötetyn tiedon. Palvelin vastaa koodilla 302 ja selain tekee GET-pyynnöt palvelimelle uudelleen)
+
+HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes ->
+<- html
+
+HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css ->
+<- main.css
+
+HTTP GET
+https://studies.cs.helsinki.fi/exampleapp/main.js ->
+<- main.js
+(aletaan suorittaa js-koodia, joka pyytää JSON-datan palvelimelta)
+
+HTTP GET https://studies.cs.helsinki.fi/exampleapp/data ->
+<- data.json
+(renderöidään data näytölle js-koodin tapahtumankäsittelijän mukaisesti, eli järjestämättömänä listana)
+
+HTTP GET 
+https://studies.cs.helsinki.fi/favicon.ico ->
+<- HTML
+

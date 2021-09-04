@@ -1,0 +1,9 @@
+0.6 SPA-sivulle postaus
+
+
+selain          palvelin
+
+HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa ->
+
+<- {"message":"note created"} 
+(sivua ei ladata uudelleen. Palvelin vastaa JSON-viestillä ja uusi viesti näkyy listassa heti)
