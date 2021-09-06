@@ -1,3 +1,3 @@
-### fullstack online
+### fullstack open
 
-Tästä reposta löytyy kaikki palautetut fullstack online -kurssin tehtävät
+Tästä reposta löytyy kaikki palautetut fullstack open -kurssin tehtävät
