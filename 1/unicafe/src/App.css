@@ -1,0 +1,60 @@
+#app {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.button {
+  margin: 1%;
+  padding: 2%;
+  font-weight: 600;
+  background-color: white;
+  cursor: pointer;
+}
+
+h1{
+  font-size: 2em;
+  font-weight: 500;
+}
+
+#statistics {
+  text-align: left;
+  margin: auto;
+  border: 1px solid grey;
+  border-collapse: collapse;
+  width: 40%;
+  max-width: 40vw;
+}
+
+#statistics td{
+border: 1px solid gray;
+}
+
+#feedback :first-child{
+  color: green;
+  border-color: green;
+}
+
+#feedback :first-child:hover{
+  color: white;
+  background-color: green;
+}
+
+#feedback :nth-child(2){
+  color: orange;
+  border-color: orange;
+}
+
+#feedback :nth-child(2):hover{
+  color: white;
+  background-color: orange;
+}
+
+#feedback :last-child{
+  color: red;
+  border-color: red;
+}
+
+#feedback :last-child:hover{
+  color: white;
+  background-color: red;
+}
