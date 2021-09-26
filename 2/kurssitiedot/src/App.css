@@ -1,0 +1,17 @@
+main {
+  margin: 3%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td:nth-child(odd) {
+  width: 70vw;
+  max-width: 420px;
+  padding: 1%;
+}
+tr:nth-child(even) {
+  background-color: rgba(211, 207, 207, 0.377);
+}

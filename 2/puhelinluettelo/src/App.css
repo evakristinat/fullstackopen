@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+}
+
+main {
+  margin: 4%;
+}
+
+input {
+  width: 60vw;
+  max-width: 400px;
+  padding: 1%;
+  box-sizing: border-box;
+}
+
+label {
+  display: block;
+}
+
+button {
+  margin-top: 2%;
+  display: block;
+}
+
+table:nth-child(even) {
+  background-color: rgba(128, 128, 128, 0.301);
+}
+
+td {
+  width: 30vw;
+  max-width: 200px;
+}
