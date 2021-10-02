@@ -1,0 +1,18 @@
+#App {
+  padding: 4%;
+}
+
+.country{
+  width: fit-content;
+  margin: 1%;
+}
+
+button {
+  display: inline;
+  height: 90%;
+}
+
+.flex{
+  display: flex;
+  align-items: center;
+}
