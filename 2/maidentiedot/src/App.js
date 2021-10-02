@@ -80,7 +80,7 @@ const Weather = ({ capital }) => {
   console.log(weatherData);
   return (
     <>
-    <h3>current weather</h3>
+      <h3>current weather</h3>
       <p>temperature: {weatherData.temp} Celsius</p>
       <img src={weatherData.icon} alt={weatherData.iconAlt} />
       <p>wind: {weatherData.wind} m/s</p>
@@ -114,7 +114,7 @@ const App = () => {
   const foundCountries = countriesToShow.length;
 
   return (
-    <main id="App">
+    <main id="app">
       <Filter search={search} handleSearchChange={handleSearchChange} />
 
       {foundCountries <= 10 && foundCountries > 1 ? (
@@ -122,9 +122,7 @@ const App = () => {
           <CountryListItem country={country} handleClick={handleClick} />
         ))
       ) : foundCountries <= 1 ? (
-        <CountryData
-          countriesToShow={countriesToShow}
-        />
+        <CountryData countriesToShow={countriesToShow} />
       ) : (
         <p>Too many matches, please specify</p>
       )}
