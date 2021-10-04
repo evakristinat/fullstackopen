@@ -1,5 +1,5 @@
 import React from 'react';
-import Course, { Header } from './Course';
+import Course, { Header } from './components/Course';
 import './App.css';
 
 const App = () => {

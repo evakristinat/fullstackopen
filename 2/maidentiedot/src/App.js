@@ -14,14 +14,8 @@ const Filter = ({ search, handleSearchChange }) => {
 const CountryListItem = ({ country, handleClick }) => {
   return (
     <div className="flex">
-      <p className="country" key={country.name.common}>
-        {country.name.common}
-      </p>
-      <button
-        // key={}
-        value={country.name.common}
-        onClick={handleClick}
-      >
+      <p className="country">{country.name.common}</p>
+      <button value={country.name.common} onClick={handleClick}>
         show
       </button>
     </div>
@@ -29,18 +23,17 @@ const CountryListItem = ({ country, handleClick }) => {
 };
 
 const CountryData = ({ countriesToShow }) => {
-  //populaatio on korvattu alueella, koska käytetty API ei tarjonnut sitä tietoa.
   return (
     <>
       {countriesToShow.map((country) => (
-        <>
-          <h2 key={country.name.common}>{country.name.common}</h2>
+        <div key={country.cca2}>
+          <h2>{country.name.common}</h2>
           <p>capital {country.capital}</p>
-          <p>region {country.region}</p>
+          <p>population {country.population}</p>
           <Languages languages={country.languages} />
           <img src={country.flags[0]} alt="flag" width="150" height="120"></img>
           <Weather capital={country.capital} />
-        </>
+        </div>
       ))}
     </>
   );
@@ -74,10 +67,8 @@ const Weather = ({ capital }) => {
           wind: response.data.wind.speed,
         };
         setWeatherData(weatherObject);
-        console.log(response.data);
       });
   }, [capital]);
-  console.log(weatherData);
   return (
     <>
       <h3>current weather</h3>
@@ -94,7 +85,6 @@ const App = () => {
 
   useEffect(() => {
     axios
-      //tehtävänannon linkki ei ollut toiminnassa, joten etsin vastaavan
       .get('https://restcountries.com//v3/all')
       .then((response) => setCountries(response.data));
   }, []);
@@ -119,7 +109,11 @@ const App = () => {
 
       {foundCountries <= 10 && foundCountries > 1 ? (
         countriesToShow.map((country) => (
-          <CountryListItem country={country} handleClick={handleClick} />
+          <CountryListItem
+            country={country}
+            handleClick={handleClick}
+            key={country.cca2}
+          />
         ))
       ) : foundCountries <= 1 ? (
         <CountryData countriesToShow={countriesToShow} />
