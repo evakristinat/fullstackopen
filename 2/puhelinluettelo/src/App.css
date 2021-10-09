@@ -9,6 +9,7 @@ main {
 input {
   width: 60vw;
   max-width: 400px;
+  min-width: 280px;
   padding: 1%;
   box-sizing: border-box;
 }
@@ -22,11 +23,37 @@ button {
   display: block;
 }
 
-table:nth-child(even) {
+table {
+  border-collapse: collapse;
+}
+
+
+tr:nth-child(odd) {
   background-color: rgba(128, 128, 128, 0.301);
 }
 
 td {
-  width: 30vw;
-  max-width: 200px;
+  width: 39vw;
+  max-width: 170px;
+  padding: 2% 3% 1% 1%;
+}
+
+td:last-child {
+  width: 63px;
+}
+
+.error,
+.success {
+  padding: 20px;
+  color: white;
+  margin-bottom: 15px;
+  max-width: 350px;
+}
+
+.error {
+  background-color: rgb(233, 56, 56);
+}
+
+.success {
+  background-color: rgb(13, 156, 13);
 }

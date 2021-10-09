@@ -13,7 +13,12 @@ const NewPerson = ({
       <input type="text" value={newName} onChange={handleNameChange} />
 
       <label>number:</label>
-      <input type="tel" value={newNumber} onChange={handleNumberChange} />
+      <input
+        type="tel"
+        minLength="10"
+        value={newNumber}
+        onChange={handleNumberChange}
+      />
 
       <button type="submit">add</button>
     </form>
