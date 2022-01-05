@@ -6,8 +6,10 @@ main {
   margin: 4%;
 }
 
+
+
 input {
-  width: 60vw;
+  width: 80vw;
   max-width: 400px;
   min-width: 280px;
   padding: 1%;
@@ -33,7 +35,7 @@ tr:nth-child(odd) {
 }
 
 td {
-  width: 39vw;
+  width: 33vw;
   max-width: 170px;
   padding: 2% 3% 1% 1%;
 }
@@ -42,12 +44,19 @@ td:last-child {
   width: 63px;
 }
 
+.notification-box{
+
+  margin-top: 15px;
+  width: 85vw;
+  height: 50px;
+  max-width: 400px;
+}
+
 .error,
 .success {
-  padding: 20px;
+  padding: 15px;
   color: white;
-  margin-bottom: 15px;
-  max-width: 350px;
+  margin: auto;
 }
 
 .error {

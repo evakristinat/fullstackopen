@@ -179,9 +179,13 @@ const App = () => {
   return (
     <main>
       <h2>Phonebook</h2>
-      <Notification message={message} error={error} />
+
       <Filter search={search} handleSearchChange={handleSearchChange} />
 
+      <div className="notification-box"> 
+      <Notification message={message} error={error} />
+      </div>
+      
       <h3>Add new</h3>
       <NewPerson
         addPerson={addPerson}
