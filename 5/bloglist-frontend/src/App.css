@@ -1,0 +1,54 @@
+body {
+  margin: 5%;
+}
+
+.notification-box {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 85vw;
+  height: 70px;
+  max-width: 480px;
+}
+
+.error,
+.success {
+  font-size: 0.8em;
+  padding: 15px;
+  color: white;
+  margin: auto;
+  max-width: 500px;
+}
+
+.error {
+  background-color: rgb(233, 56, 56);
+}
+
+.success {
+  background-color: rgb(13, 156, 13);
+}
+input {
+  width: 200px;
+}
+
+#username, #password{
+  margin-left: 2vw;
+  margin-bottom: 1vh;
+}
+
+button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#logout {
+  margin-left: 10px;
+}
+
+#newBlogForm {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(6, 1fr) 2fr;
+  row-gap: 2px;
+  justify-items: start;
+  align-items: flex-end;
+}

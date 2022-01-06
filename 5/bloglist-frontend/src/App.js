@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -23,7 +24,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setError(exception.message)
+      setError('wrong username or password')
     }
   }
 
@@ -40,9 +41,9 @@ const App = () => {
       author: event.target[1].value,
       url: event.target[2].value,
     })
+    setMessage(`New blog '${event.target[0].value}' added to the list`)
     document.getElementById('newBlogForm').reset()
     getBlogs()
-    setMessage('New note added')
   }
 
   const getBlogs = async () => {
@@ -50,7 +51,7 @@ const App = () => {
       const res = await blogService.getAll()
       return setBlogs(res)
     } catch (exception) {
-      setError(exception.message)
+      setError('Data could not be reached')
     }
   }
 
@@ -64,51 +65,64 @@ const App = () => {
   }, [])
 
   useEffect(() => {
+    if (error || message)
+      setTimeout(() => {
+        setMessage('')
+        setError('')
+      }, 4000)
+  }, [error, message])
+
+  useEffect(() => {
     getBlogs()
   }, [])
 
   const LoginForm = () => (
-    <form onSubmit={handleLogin}>
-      <h3>login to add blogs</h3>
-      <div>
-        <label htmlFor="username">username</label>
-        <input
-          id="username"
-          type="text"
-          value={username}
-          name="Username"
-          autoComplete="username"
-          onChange={({ target }) => setUsername(target.value)}
-        ></input>
-      </div>
-      <div>
-        <label htmlFor="password">password</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          name="password"
-          autoComplete="current-password"
-          onChange={({ target }) => setPassword(target.value)}
-        ></input>
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <>
+      <Notification message={message} error={error} />
+      <form onSubmit={handleLogin}>
+        <h3>login to add blogs</h3>
+        <div>
+          <label htmlFor="username">username</label>
+          <input
+            id="username"
+            type="text"
+            value={username}
+            name="Username"
+            autoComplete="username"
+            onChange={({ target }) => setUsername(target.value)}
+          ></input>
+        </div>
+        <div>
+          <label htmlFor="password">password</label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            name="password"
+            autoComplete="current-password"
+            onChange={({ target }) => setPassword(target.value)}
+          ></input>
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </>
   )
 
   const CreateBlog = () => (
-    <form id="newBlogForm" onSubmit={addBlog}>
+    <>
       <h2>add new</h2>
-      <label htmlFor="title">Title</label>
-      <input id="title" type="text" name="title"></input>
-      <label htmlFor="author">Author</label>
-      <input id="author " type="text" name="author"></input>
-      <label htmlFor="url">Url</label>
-      <input id="url" type="url" name="url"></input>
-      <button style={{ display: 'block' }} type="submit">
-        add
-      </button>
-    </form>
+      <form id="newBlogForm" onSubmit={addBlog}>
+        <label htmlFor="title">Title</label>
+        <input id="title" type="text" name="title"></input>
+        <label htmlFor="author">Author</label>
+        <input id="author " type="text" name="author"></input>
+        <label htmlFor="url">Url</label>
+        <input id="url" type="url" name="url"></input>
+        <button style={{ display: 'block' }} type="submit">
+          add
+        </button>
+      </form>
+    </>
   )
 
   //jos nimeä ei ole annettu, käytetään käyttäjätunnusta
@@ -117,7 +131,10 @@ const App = () => {
       <p style={{ display: 'inline' }}>
         Logged in as {user.name ? user.name : user.username}
       </p>
-      <button onClick={handleLogout}>logout</button>
+      <button id="logout" onClick={handleLogout}>
+        logout
+      </button>
+      <Notification error={error} message={message} />
       <CreateBlog />
       <h2>blogs</h2>
       {blogs.map((blog) => (
@@ -136,7 +153,7 @@ const App = () => {
 
   return (
     <>
-      <Notification message={message} error={error} />
+      <h1>Blog List</h1>
       {!user ? LoginForm() : BlogsList()}
     </>
   )
