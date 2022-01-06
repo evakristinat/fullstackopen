@@ -21,6 +21,7 @@ const App = () => {
     console.log('logging in', username)
     try {
       const user = await loginService.login({ username, password })
+      //user sisältää nyt backendin palauttaman tokenin, käyttäjänimen ja nimen
       setUser(user)
       emptyInputs()
     } catch (exception) {
