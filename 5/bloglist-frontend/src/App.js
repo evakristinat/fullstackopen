@@ -23,10 +23,16 @@ const App = () => {
       const user = await loginService.login({ username, password })
       //user sisältää nyt backendin palauttaman tokenin, käyttäjänimen ja nimen
       setUser(user)
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
       emptyInputs()
     } catch (exception) {
       setError(exception.message)
     }
+  }
+
+  const handleLogout = () => {
+    window.localStorage.clear()
+    setUser(null)
   }
 
   const getBlogs = async () => {
@@ -37,6 +43,13 @@ const App = () => {
       setError(exception.message)
     }
   }
+
+  useEffect(() => {
+    const loggedUserLocal = window.localStorage.getItem('loggedUser')
+    if (loggedUserLocal) {
+      setUser(JSON.parse(loggedUserLocal))
+    }
+  }, [])
 
   useEffect(() => {
     getBlogs()
@@ -71,9 +84,13 @@ const App = () => {
     </form>
   )
 
+  //jos nimeä ei ole annettu, käytetään käyttäjätunnusta
   const blogsList = () => (
     <main>
-      <p>{user.name} logged in</p>
+      <p style={{ display: 'inline' }}>
+        Logged in as {user.name ? user.name : user.username}
+      </p>
+      <button onClick={handleLogout}>logout</button>
       <h2>blogs</h2>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
