@@ -11,11 +11,6 @@ const App = () => {
   const [error, setError] = useState(null)
   const [message, setMessage] = useState(null)
 
-  const emptyInputs = () => {
-    setUsername('')
-    setPassword('')
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in', username)
@@ -24,7 +19,9 @@ const App = () => {
       //user sisältää nyt backendin palauttaman tokenin, käyttäjänimen ja nimen
       setUser(user)
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
-      emptyInputs()
+      blogService.setToken(user.token)
+      setUsername('')
+      setPassword('')
     } catch (exception) {
       setError(exception.message)
     }
@@ -32,7 +29,20 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.clear()
+    blogService.setToken(null)
     setUser(null)
+  }
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+    await blogService.addNew({
+      title: event.target[0].value,
+      author: event.target[1].value,
+      url: event.target[2].value,
+    })
+    document.getElementById('newBlogForm').reset()
+    getBlogs()
+    setMessage('New note added')
   }
 
   const getBlogs = async () => {
@@ -47,7 +57,9 @@ const App = () => {
   useEffect(() => {
     const loggedUserLocal = window.localStorage.getItem('loggedUser')
     if (loggedUserLocal) {
-      setUser(JSON.parse(loggedUserLocal))
+      const user = JSON.parse(loggedUserLocal)
+      setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -55,7 +67,7 @@ const App = () => {
     getBlogs()
   }, [])
 
-  const loginForm = () => (
+  const LoginForm = () => (
     <form onSubmit={handleLogin}>
       <h3>login to add blogs</h3>
       <div>
@@ -84,13 +96,29 @@ const App = () => {
     </form>
   )
 
+  const CreateBlog = () => (
+    <form id="newBlogForm" onSubmit={addBlog}>
+      <h2>add new</h2>
+      <label htmlFor="title">Title</label>
+      <input id="title" type="text" name="title"></input>
+      <label htmlFor="author">Author</label>
+      <input id="author " type="text" name="author"></input>
+      <label htmlFor="url">Url</label>
+      <input id="url" type="url" name="url"></input>
+      <button style={{ display: 'block' }} type="submit">
+        add
+      </button>
+    </form>
+  )
+
   //jos nimeä ei ole annettu, käytetään käyttäjätunnusta
-  const blogsList = () => (
+  const BlogsList = () => (
     <main>
       <p style={{ display: 'inline' }}>
         Logged in as {user.name ? user.name : user.username}
       </p>
       <button onClick={handleLogout}>logout</button>
+      <CreateBlog />
       <h2>blogs</h2>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
@@ -109,7 +137,7 @@ const App = () => {
   return (
     <>
       <Notification message={message} error={error} />
-      {!user ? loginForm() : blogsList()}
+      {!user ? LoginForm() : BlogsList()}
     </>
   )
 }
