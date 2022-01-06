@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import React, { useState, useEffect, useRef } from 'react'
+import BlogsList from './components/BlogList'
+import LoginForm from './components/LoginFom'
+import Notification from './components/Notification'
+import CreateBlog from './components/CreateBlog'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './App.css'
@@ -9,8 +13,10 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
-  const [message, setMessage] = useState(null)
+  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
+
+  const createBlogForm = useRef()
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -34,24 +40,29 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = async (event) => {
-    event.preventDefault()
-    await blogService.addNew({
-      title: event.target[0].value,
-      author: event.target[1].value,
-      url: event.target[2].value,
-    })
-    setMessage(`New blog '${event.target[0].value}' added to the list`)
-    document.getElementById('newBlogForm').reset()
-    getBlogs()
-  }
-
   const getBlogs = async () => {
     try {
       const res = await blogService.getAll()
       return setBlogs(res)
     } catch (exception) {
       setError('Data could not be reached')
+    }
+  }
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+    try {
+      await blogService.addNew({
+        title: event.target[0].value,
+        author: event.target[1].value,
+        url: event.target[2].value,
+      })
+      setMessage(`New blog '${event.target[0].value}' added to the list`)
+      document.getElementById('newBlogForm').reset()
+      createBlogForm.current.toggleVisibility()
+      getBlogs()
+    } catch (exception) {
+      setError('Session timed out. Login again to continue.')
     }
   }
 
@@ -76,85 +87,40 @@ const App = () => {
     getBlogs()
   }, [])
 
-  const LoginForm = () => (
-    <>
-      <Notification message={message} error={error} />
-      <form onSubmit={handleLogin}>
-        <h3>login to add blogs</h3>
-        <div>
-          <label htmlFor="username">username</label>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            name="Username"
-            autoComplete="username"
-            onChange={({ target }) => setUsername(target.value)}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="password">password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            name="password"
-            autoComplete="current-password"
-            onChange={({ target }) => setPassword(target.value)}
-          ></input>
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </>
-  )
-
-  const CreateBlog = () => (
-    <>
-      <h2>add new</h2>
-      <form id="newBlogForm" onSubmit={addBlog}>
-        <label htmlFor="title">Title</label>
-        <input id="title" type="text" name="title"></input>
-        <label htmlFor="author">Author</label>
-        <input id="author " type="text" name="author"></input>
-        <label htmlFor="url">Url</label>
-        <input id="url" type="url" name="url"></input>
-        <button style={{ display: 'block' }} type="submit">
-          add
-        </button>
-      </form>
-    </>
-  )
-
-  //jos nimeä ei ole annettu, käytetään käyttäjätunnusta
-  const BlogsList = () => (
-    <main>
-      <p style={{ display: 'inline' }}>
-        Logged in as {user.name ? user.name : user.username}
-      </p>
-      <button id="logout" onClick={handleLogout}>
-        logout
-      </button>
-      <Notification error={error} message={message} />
-      <CreateBlog />
-      <h2>blogs</h2>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
-    </main>
-  )
-
-  const Notification = ({ message, error }) => {
-    if (message) {
-      return <p className="success">{message}</p>
-    } else if (error) {
-      return <p className="error">{error}</p>
-    } else return null
-  }
-
   return (
     <>
       <h1>Blog List</h1>
-      {!user ? LoginForm() : BlogsList()}
+      {!user ? (
+        <LoginForm
+          message={message}
+          error={error}
+          handleLogin={handleLogin}
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
+        />
+      ) : (
+        <>
+          <p style={{ display: 'inline' }}>
+            Logged in as {user.name ? user.name : user.username}
+          </p>
+          <button id="logout" onClick={handleLogout}>
+            logout
+          </button>
+          <Notification error={error} message={message} />
+          <Togglable buttonLabel="add new blog" ref={createBlogForm}>
+            <CreateBlog addBlog={addBlog} />
+          </Togglable>
+          <BlogsList
+            user={user}
+            handleLogout={handleLogout}
+            error={error}
+            message={message}
+            blogs={blogs}
+          />
+        </>
+      )}
     </>
   )
 }
