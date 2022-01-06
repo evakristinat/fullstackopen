@@ -1,7 +1,16 @@
 import React from 'react'
 
+const CreateBlog = ({addNew}) => {
+  const addBlog = async (event) => {
+    event.preventDefault()
+    await addNew({
+      title: event.target[0].value,
+      author: event.target[1].value,
+      url: event.target[2].value,
+    })
 
-const CreateBlog = ({ addBlog }) => {
+    document.getElementById('newBlogForm').reset()
+  }
 
   return (
     <>

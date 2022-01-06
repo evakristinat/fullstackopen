@@ -17,6 +17,7 @@ const App = () => {
   const [message, setMessage] = useState('')
 
   const createBlogForm = useRef()
+  
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -49,21 +50,15 @@ const App = () => {
     }
   }
 
-  const addBlog = async (event) => {
-    event.preventDefault()
+  const addNew = async (blogObject) => {
     try {
-      await blogService.addNew({
-        title: event.target[0].value,
-        author: event.target[1].value,
-        url: event.target[2].value,
-      })
-      setMessage(`New blog '${event.target[0].value}' added to the list`)
-      document.getElementById('newBlogForm').reset()
-      createBlogForm.current.toggleVisibility()
-      getBlogs()
-    } catch (exception) {
-      setError('Session timed out. Login again to continue.')
-    }
+    const returnedBlog = await blogService.addNew(blogObject)
+    setBlogs(blogs.concat(returnedBlog))
+    setMessage(`New blog '${blogObject.title}' added to the list`)
+    createBlogForm.current.toggleVisibility()
+  } catch (exception) {
+    setError('Session timed out. Login again to continue.')
+  }
   }
 
   useEffect(() => {
@@ -110,7 +105,11 @@ const App = () => {
           </button>
           <Notification error={error} message={message} />
           <Togglable buttonLabel="add new blog" ref={createBlogForm}>
-            <CreateBlog addBlog={addBlog} />
+            <CreateBlog
+              addNew={addNew}
+              setMessage={setMessage}
+              setError={setError}
+            />
           </Togglable>
           <BlogsList
             user={user}
