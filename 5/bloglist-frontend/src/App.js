@@ -3,7 +3,7 @@ import BlogsList from './components/BlogList'
 import LoginForm from './components/LoginFom'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
-import Togglable from './components/Togglable'
+import Toggle from './components/Toggle'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './App.css'
@@ -17,7 +17,6 @@ const App = () => {
   const [message, setMessage] = useState('')
 
   const createBlogForm = useRef()
-  
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -52,13 +51,13 @@ const App = () => {
 
   const addNew = async (blogObject) => {
     try {
-    const returnedBlog = await blogService.addNew(blogObject)
-    setBlogs(blogs.concat(returnedBlog))
-    setMessage(`New blog '${blogObject.title}' added to the list`)
-    createBlogForm.current.toggleVisibility()
-  } catch (exception) {
-    setError('Session timed out. Login again to continue.')
-  }
+      const returnedBlog = await blogService.addNew(blogObject)
+      setBlogs(blogs.concat(returnedBlog))
+      setMessage(`New blog '${blogObject.title}' added to the list`)
+      createBlogForm.current.toggleVisibility()
+    } catch (exception) {
+      setError('Session timed out. Login again to continue.')
+    }
   }
 
   useEffect(() => {
@@ -86,38 +85,40 @@ const App = () => {
     <>
       <h1>Blog List</h1>
       {!user ? (
-        <LoginForm
-          message={message}
-          error={error}
-          handleLogin={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-        />
+        <>
+          <LoginForm
+            message={message}
+            error={error}
+            handleLogin={handleLogin}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+          />
+        </>
       ) : (
         <>
-          <p style={{ display: 'inline' }}>
-            Logged in as {user.name ? user.name : user.username}
-          </p>
-          <button id="logout" onClick={handleLogout}>
-            logout
-          </button>
+          <div>
+            <p style={{ display: 'inline-block' }}>
+              Logged in as {user.name ? user.name : user.username}
+            </p>
+            <button id="logout" onClick={handleLogout}>
+              logout
+            </button>
+          </div>
           <Notification error={error} message={message} />
-          <Togglable buttonLabel="add new blog" ref={createBlogForm}>
+          <Toggle
+            buttonLabel="add new blog"
+            secondButtonLabel="cancel"
+            ref={createBlogForm}
+          >
             <CreateBlog
               addNew={addNew}
               setMessage={setMessage}
               setError={setError}
             />
-          </Togglable>
-          <BlogsList
-            user={user}
-            handleLogout={handleLogout}
-            error={error}
-            message={message}
-            blogs={blogs}
-          />
+          </Toggle>
+          <BlogsList blogs={blogs} />
         </>
       )}
     </>

@@ -1,5 +1,5 @@
-import React from "react"
-import Notification from "./Notification"
+import React from 'react'
+import Notification from './Notification'
 
 const LoginForm = ({
   message,
@@ -8,12 +8,12 @@ const LoginForm = ({
   username,
   setUsername,
   password,
-  setPassword
+  setPassword,
 }) => (
   <>
-    <Notification message={message} error={error} />
-    <form onSubmit={handleLogin}>
+    <form id="loginform" onSubmit={handleLogin}>
       <h3>login to add blogs</h3>
+      <Notification message={message} error={error} />
       <div>
         <label htmlFor="username">username</label>
         <input

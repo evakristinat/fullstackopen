@@ -1,5 +1,7 @@
 body {
   margin: 5%;
+  background-color: rgba(236, 236, 234, 0.171);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .notification-box {
@@ -30,25 +32,67 @@ input {
   width: 200px;
 }
 
-#username, #password{
+#username,
+#password {
   margin-left: 2vw;
   margin-bottom: 1vh;
-}
-
-button {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 #logout {
   margin-left: 10px;
 }
 
-#newBlogForm {
+#newblogform {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(6, 1fr) 2fr;
   row-gap: 2px;
   justify-items: start;
-  align-items: flex-end;
+  align-items: center;
+  height: 150px;
+}
+
+#bloginfo {
+  font-size: 1.1em;
+  margin: 1vh 0vw 2vh;
+  max-width: 50vw;
+  min-width: 350px;
+  background-color: rgb(202, 202, 202);
+  padding: 0.2vh 2vw;
+  box-shadow: rgba(169, 169, 169, 0.274) 5px 5px 5px 2px;
+}
+#moreinfo {
+  margin-bottom: 4vh;
+}
+
+.bloghead {
+  display: inline-block;
+  width: 45vw;
+  min-width: 290px;
+}
+
+#showmore {
+  min-width: 20px;
+  width: 1vw;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#togglecontainer {
+  display: inline;
+  margin: 2vh 0 3vh 0;
+}
+
+.togglebutton1,
+.togglebutton2 {
+  margin-left: 1vw;
+  margin-bottom: 2vh;
+}
+
+#like {
+  min-width: 20px;
+  width: 1vw;
+  display: inline-block;
+  padding: 2%;
+  cursor: pointer;
 }
