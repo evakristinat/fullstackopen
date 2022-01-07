@@ -60,6 +60,11 @@ const App = () => {
     }
   }
 
+  const addLikes = async (id, likes) => {
+    blogService.addLikes(id, likes)
+    
+  }
+
   useEffect(() => {
     const loggedUserLocal = window.localStorage.getItem('loggedUser')
     if (loggedUserLocal) {
@@ -118,7 +123,9 @@ const App = () => {
               setError={setError}
             />
           </Toggle>
-          <BlogsList blogs={blogs} />
+          <BlogsList blogs={blogs} setError={setError} addLikes={addLikes} />
+          <div>Heart icon made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+          <div>Full heart icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
         </>
       )}
     </>

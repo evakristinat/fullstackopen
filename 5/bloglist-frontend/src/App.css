@@ -60,6 +60,7 @@ input {
   background-color: rgb(202, 202, 202);
   padding: 0.2vh 2vw;
   box-shadow: rgba(169, 169, 169, 0.274) 5px 5px 5px 2px;
+  
 }
 #moreinfo {
   margin-bottom: 4vh;
@@ -68,14 +69,19 @@ input {
 .bloghead {
   display: inline-block;
   width: 45vw;
-  min-width: 290px;
+  min-width: 270px;
 }
 
 #showmore {
+  font-size: 1.3em;
   min-width: 20px;
+  height: 20px;
   width: 1vw;
   display: inline-block;
   cursor: pointer;
+  text-align: center;
+  padding: 1vh 1vw 1vh 1vw;
+  color: rgb(85, 84, 84);
 }
 
 #togglecontainer {

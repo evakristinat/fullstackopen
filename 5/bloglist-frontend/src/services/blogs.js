@@ -19,4 +19,9 @@ const addNew = async (newBlog) => {
   return response.data
 }
 
-export default { getAll, addNew, setToken }
+const addLikes = async (id, likes) => {
+  const response = await axios.patch(`${baseUrl}/${id}`, { likes: likes })
+  return response.data
+}
+
+export default { getAll, addNew, setToken, addLikes }
