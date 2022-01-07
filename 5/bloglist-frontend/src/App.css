@@ -55,20 +55,23 @@ input {
 #bloginfo {
   font-size: 1.1em;
   margin: 1vh 0vw 2vh;
-  max-width: 50vw;
+  width: 70vw;
+  max-width: 600px;
   min-width: 350px;
   background-color: rgb(202, 202, 202);
-  padding: 0.2vh 2vw;
+  padding: 1vh 1vw 3vh 3vw;
   box-shadow: rgba(169, 169, 169, 0.274) 5px 5px 5px 2px;
-  
 }
+
 #moreinfo {
-  margin-bottom: 4vh;
+  contain: content;
+  overflow-wrap: break-word;
 }
 
 .bloghead {
   display: inline-block;
-  width: 43vw;
+  width: 55vw;
+  max-width: 500px;
   min-width: 270px;
 }
 
@@ -94,6 +97,23 @@ input {
   margin-left: 1vw;
   margin-bottom: 2vh;
 }
+
+
+.lastline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 28px;
+}
+
+.deletebutton{
+  margin-right: 2vw;
+  padding: 1% 2%;
+  border-radius: 20px;
+  background-color: rgb(146, 31, 31);
+  color: white;
+}
+
 
 #like {
   min-width: 20px;

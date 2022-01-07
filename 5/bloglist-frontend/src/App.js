@@ -31,6 +31,7 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       setError('wrong username or password')
+      console.log(exception.message)
     }
   }
 
@@ -47,6 +48,7 @@ const App = () => {
       setBlogs(res)
     } catch (exception) {
       setError('Data could not be reached')
+      console.log(exception.message)
     }
   }
 
@@ -58,11 +60,31 @@ const App = () => {
       createBlogForm.current.toggleVisibility()
     } catch (exception) {
       setError('Session timed out. Login again to continue.')
+      console.log(exception.message)
     }
   }
 
   const addLikes = async (id, likes) => {
-    blogService.addLikes(id, likes)
+    try {
+      await blogService.addLikes(id, likes)
+    } catch (exception) {
+      setError('Unable to add likes. Try again later.')
+      console.log(exception.message)
+    }
+  }
+
+  const deleteBlog = async (id, blog) => {
+    try {
+      if (window.confirm(`Delete blog ${blog.title} by ${blog.author}?`)) {
+        await blogService.deleteBlog(id)
+        //filteröidään poistettu blogi listasta
+        const rest = blogs.filter((blog) => blog.id !== id)
+        setBlogs(rest)
+      }
+    } catch (exception) {
+      setError('Delete failed')
+      console.log(exception.message)
+    }
   }
 
   useEffect(() => {
@@ -123,7 +145,12 @@ const App = () => {
               setError={setError}
             />
           </Toggle>
-          <BlogsList blogs={blogs} setError={setError} addLikes={addLikes} />
+          <BlogsList
+            blogs={blogs}
+            addLikes={addLikes}
+            deleteBlog={deleteBlog}
+            user={user}
+          />
           <div>
             Heart icon made by{' '}
             <a href="https://www.freepik.com" title="Freepik">

@@ -1,24 +1,29 @@
 import { useState } from 'react'
 
 //details html-tagi hoitaisi vastaavan toteutuksen huomattavasti nopeammin
-const Blog = ({ blog, addLikes, setError }) => {
+const Blog = ({ blog, addLikes, user, deleteBlog }) => {
   const [visible, setVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const [liked, setLiked] = useState(false)
+  const [addedByUser, setAddedByUser] = useState(false)
   const currentBlog = { ...blog }
   const toggleVisibility = () => {
     setVisible(!visible)
+    if (user.username === blog.user.username) {
+      setAddedByUser(true)
+    }
   }
 
   const newLike = async () => {
     const newLikes = currentBlog.likes + 1
     setLikes(newLikes)
     setLiked(true)
-    try {
-      addLikes(currentBlog.id, newLikes)
-    } catch (exception) {
-      setError('Unable to add likes. Try again later.')
-    }
+    addLikes(currentBlog.id, newLikes)
+  }
+
+  const deleteCurrentBlog = () => {
+    const id = blog.id
+    deleteBlog(id, blog)
   }
 
   return (
@@ -40,7 +45,16 @@ const Blog = ({ blog, addLikes, setError }) => {
         <div id="moreinfo">
           <p>{blog.url}</p>
           <p>{likes} likes</p>
-          <p>added by {blog.user.name ? blog.user.name : blog.user.username}</p>
+          <div className='lastline'>
+            <p style={{ display: 'inline' }}>
+              added by {blog.user.name ? blog.user.name : blog.user.username}
+            </p>
+            {visible && addedByUser ? (
+              <button className="deletebutton" onClick={deleteCurrentBlog}>
+                delete blog
+              </button>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </div>
