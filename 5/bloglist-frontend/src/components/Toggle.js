@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useState, forwardRef } from 'react'
 
 //komponentti on kääritty forwardRefiin, jonka ainut tarkoitus on siirtää ref eteenpäin
-const Togglable = forwardRef((props, ref) => {
+const Toggle = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
 
   const toggleVisibility = () => {
@@ -33,4 +33,6 @@ const Togglable = forwardRef((props, ref) => {
   )
 })
 
-export default Togglable
+Toggle.displayName = 'Toggle'
+
+export default Toggle

@@ -1,3 +1,5 @@
+import React from 'react'
+
 const Notification = ({ message, error }) => {
   if (message) {
     return <p className="success">{message}</p>

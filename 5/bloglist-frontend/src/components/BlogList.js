@@ -2,8 +2,7 @@ import React from 'react'
 import Blog from './Blog'
 
 //jos nimeä ei ole annettu, käytetään käyttäjätunnusta
-const BlogsList = ({ blogs, addLikes, user, deleteBlog}) => {
-
+const BlogsList = ({ blogs, addLikes, user, deleteBlog }) => {
   return (
     <main>
       <h2>blogs</h2>
