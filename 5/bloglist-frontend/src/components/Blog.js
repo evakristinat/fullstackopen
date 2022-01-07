@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 //details html-tagi hoitaisi vastaavan toteutuksen huomattavasti nopeammin
 const Blog = ({ blog, addLikes, user, deleteBlog }) => {
@@ -45,7 +46,7 @@ const Blog = ({ blog, addLikes, user, deleteBlog }) => {
         <div id="moreinfo">
           <p>{blog.url}</p>
           <p>{likes} likes</p>
-          <div className='lastline'>
+          <div className="lastline">
             <p style={{ display: 'inline' }}>
               added by {blog.user.name ? blog.user.name : blog.user.username}
             </p>
@@ -59,6 +60,13 @@ const Blog = ({ blog, addLikes, user, deleteBlog }) => {
       ) : null}
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  addLikes: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
 }
 
 export default Blog

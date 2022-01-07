@@ -1,31 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const CreateBlog = ({ addNew }) => {
-  const addBlog = async (event) => {
-    event.preventDefault()
-    await addNew({
-      title: event.target[0].value,
-      author: event.target[1].value,
-      url: event.target[2].value,
-    })
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
-    document.getElementById('newBlogForm').reset()
+  const addBlog = (event) => {
+    event.preventDefault()
+    addNew({
+      title: title,
+      author: author,
+      url: url,
+    })
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
     <>
-      <h2>add new</h2>
       <form id="newblogform" onSubmit={addBlog}>
+        <h2>add new</h2>
         <label htmlFor="title">Title</label>
-        <input id="title" type="text" name="title"></input>
+        <input
+          id="title"
+          type="text"
+          required
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
+          name="title"
+        ></input>
         <label htmlFor="author">Author</label>
-        <input id="author " type="text" name="author"></input>
+        <input
+          id="author "
+          type="text"
+          required
+          value={author}
+          onChange={({ target }) => setAuthor(target.value)}
+          name="author"
+        ></input>
         <label htmlFor="url">Url</label>
-        <input id="url" type="url" name="url"></input>
+        <input
+          id="url"
+          type="url"
+          required
+          value={url}
+          onChange={({ target }) => setUrl(target.value)}
+          name="url"
+        ></input>
+        <button type="submit">add</button>
       </form>
-      <button style={{ marginRight: "2vw" }} type="submit">
-        add
-      </button>
     </>
   )
 }

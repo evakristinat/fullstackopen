@@ -41,6 +41,14 @@ const App = () => {
     setUser(null)
   }
 
+  const handleNameChange = (username) => {
+    setUsername(username)
+  }
+
+  const handlePasswordChange = (password) => {
+    setPassword(password)
+  }
+
   const getBlogs = async () => {
     try {
       const res = await blogService.getAll()
@@ -82,7 +90,9 @@ const App = () => {
         setBlogs(rest)
       }
     } catch (exception) {
-      setError('Delete failed')
+      setError(
+        'Delete failed. Your session might have ended. Try loggin in again.'
+      )
       console.log(exception.message)
     }
   }
@@ -118,9 +128,9 @@ const App = () => {
             error={error}
             handleLogin={handleLogin}
             username={username}
-            setUsername={setUsername}
+            handleNameChange={handleNameChange}
             password={password}
-            setPassword={setPassword}
+            handlePasswordChange={handlePasswordChange}
           />
         </>
       ) : (

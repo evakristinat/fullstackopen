@@ -4,20 +4,13 @@ body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.notification-box {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 85vw;
-  height: 70px;
-  max-width: 480px;
-}
-
 .error,
 .success {
   font-size: 0.8em;
   padding: 15px;
   color: white;
-  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10ox;
   max-width: 500px;
 }
 
@@ -29,7 +22,9 @@ body {
   background-color: rgb(13, 156, 13);
 }
 input {
-  width: 200px;
+  width: 70vw;
+  max-width: 600px;
+  min-width: 350px;
 }
 
 #username,
@@ -45,11 +40,11 @@ input {
 #newblogform {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(6, 1fr) 2fr;
+  grid-template-rows: repeat(7, 1fr) 2fr;
   row-gap: 2px;
   justify-items: start;
   align-items: center;
-  height: 150px;
+  height: 250px;
 }
 
 #bloginfo {
@@ -70,6 +65,7 @@ input {
 
 .bloghead {
   display: inline-block;
+  margin: 0px;
   width: 55vw;
   max-width: 500px;
   min-width: 270px;
@@ -92,12 +88,14 @@ input {
   margin: 2vh 0 3vh 0;
 }
 
-.togglebutton1,
-.togglebutton2 {
-  margin-left: 1vw;
-  margin-bottom: 2vh;
+button {
+  min-width: 60px;
 }
 
+.togglebutton1,
+.togglebutton2 {
+  margin-bottom: 2vh;
+}
 
 .lastline {
   display: flex;
@@ -106,14 +104,13 @@ input {
   height: 28px;
 }
 
-.deletebutton{
+.deletebutton {
   margin-right: 2vw;
   padding: 1% 2%;
   border-radius: 20px;
   background-color: rgb(146, 31, 31);
   color: white;
 }
-
 
 #like {
   min-width: 20px;
