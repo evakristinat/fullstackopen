@@ -20,9 +20,12 @@ test('renders correct initial content', () => {
 
   const component = render(<Blog blog={blog} />)
 
-  expect(component.container).toHaveTextContent('Testing is complicated')
+  expect(component.container).toHaveTextContent('Testing is complicated, Eeva')
 
   expect(component.container).not.toHaveTextContent(
     'https://fullstackopen.com/osa5/react_sovellusten_testaaminen'
+  )
+  expect(component.container).not.toHaveTextContent(
+    '0 likes'
   )
 })
