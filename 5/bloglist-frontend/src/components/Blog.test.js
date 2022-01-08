@@ -1,12 +1,13 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 /* Oikea komento Windowsille (powershell) kun testit ajetaan ilman watch-modea:
 ($env:CI = "true") -and (npm test) */
 
-test('renders correct initial content', () => {
+describe('<Blog/>', () => {
+  let component
   const blog = {
     title: 'Testing is complicated',
     author: 'Eeva',
@@ -17,15 +18,37 @@ test('renders correct initial content', () => {
       name: 'Eeva',
     },
   }
+  const user = {
+    username: 'eva',
+  }
 
-  const component = render(<Blog blog={blog} />)
+  beforeEach(() => {
+    component = render(<Blog blog={blog} user={user} />)
+  })
 
-  expect(component.container).toHaveTextContent('Testing is complicated, Eeva')
+  test('renders correct initial content', () => {
+    expect(component.container).toHaveTextContent(
+      'Testing is complicated, Eeva'
+    )
 
-  expect(component.container).not.toHaveTextContent(
-    'https://fullstackopen.com/osa5/react_sovellusten_testaaminen'
-  )
-  expect(component.container).not.toHaveTextContent(
-    '0 likes'
-  )
+    expect(component.container).not.toHaveTextContent(
+      'https://fullstackopen.com/osa5/react_sovellusten_testaaminen'
+    )
+    expect(component.container).not.toHaveTextContent('0 likes')
+  })
+
+  test('renders all content after plus is clicked', () => {
+    expect(component.container).toHaveTextContent(
+      'Testing is complicated, Eeva'
+    )
+
+    const plus = component.getByText('+')
+    fireEvent.click(plus)
+
+    expect(component.container).toHaveTextContent(
+      'https://fullstackopen.com/osa5/react_sovellusten_testaaminen'
+    )
+    expect(component.container).toHaveTextContent('0 likes')
+
+  })
 })
