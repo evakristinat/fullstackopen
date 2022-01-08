@@ -72,9 +72,9 @@ const App = () => {
     }
   }
 
-  const addLikes = async (id, likes) => {
+  const updateLikes = async (id, likes) => {
     try {
-      await blogService.addLikes(id, likes)
+      await blogService.updateLikes(id, likes)
     } catch (exception) {
       setError('Unable to add likes. Try again later.')
       console.log(exception.message)
@@ -157,7 +157,7 @@ const App = () => {
           </Toggle>
           <BlogsList
             blogs={blogs}
-            addLikes={addLikes}
+            updateLikes={updateLikes}
             deleteBlog={deleteBlog}
             user={user}
           />

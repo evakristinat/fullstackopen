@@ -22,11 +22,8 @@ describe('<Blog/>', () => {
     username: 'eva',
   }
 
-  beforeEach(() => {
-    component = render(<Blog blog={blog} user={user} />)
-  })
-
   test('renders correct initial content', () => {
+    component = render(<Blog blog={blog} user={user} />)
     expect(component.container).toHaveTextContent(
       'Testing is complicated, Eeva'
     )
@@ -38,6 +35,7 @@ describe('<Blog/>', () => {
   })
 
   test('renders all content after plus is clicked', () => {
+    component = render(<Blog blog={blog} user={user} />)
     expect(component.container).toHaveTextContent(
       'Testing is complicated, Eeva'
     )
@@ -49,6 +47,22 @@ describe('<Blog/>', () => {
       'https://fullstackopen.com/osa5/react_sovellusten_testaaminen'
     )
     expect(component.container).toHaveTextContent('0 likes')
+  })
 
+  test('calls updateLikes twice when plus/minus is clicked twice', () => {
+    //funktiokutsujen tutkimiseen tarkoitettu feikki funktio
+    const mockHandler = jest.fn()
+
+    component = render(<Blog blog={blog} user={user} updateLikes={mockHandler} />)
+
+    const plus = component.getByText('+')
+    fireEvent.click(plus)
+
+    const like = component.container.querySelector('#like')
+    fireEvent.click(like)
+    fireEvent.click(like)
+
+    //tarkistaa että updateLikes-funktiota kutsutaan kahdesti
+    expect(mockHandler.mock.calls).toHaveLength(2)
   })
 })

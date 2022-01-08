@@ -2,7 +2,7 @@ import React from 'react'
 import Blog from './Blog'
 
 //jos nimeä ei ole annettu, käytetään käyttäjätunnusta
-const BlogsList = ({ blogs, addLikes, user, deleteBlog }) => {
+const BlogsList = ({ blogs, updateLikes, user, deleteBlog }) => {
   return (
     <main>
       <h2>blogs</h2>
@@ -10,7 +10,7 @@ const BlogsList = ({ blogs, addLikes, user, deleteBlog }) => {
         <Blog
           key={blog.id}
           blog={blog}
-          addLikes={addLikes}
+          updateLikes={updateLikes}
           user={user}
           deleteBlog={deleteBlog}
         />

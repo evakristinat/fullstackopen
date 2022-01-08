@@ -19,7 +19,7 @@ const addNew = async (newBlog) => {
   return response.data
 }
 
-const addLikes = async (id, likes) => {
+const updateLikes = async (id, likes) => {
   const response = await axios.patch(`${baseUrl}/${id}`, { likes: likes })
   return response.data
 }
@@ -32,4 +32,4 @@ const deleteBlog = async (id) => {
   return response.data
 }
 
-export default { getAll, addNew, setToken, addLikes, deleteBlog }
+export default { getAll, addNew, setToken, updateLikes, deleteBlog }

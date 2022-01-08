@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 //details html-tagi hoitaisi vastaavan toteutuksen huomattavasti nopeammin
-const Blog = ({ blog, addLikes, user, deleteBlog }) => {
+const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
   const [visible, setVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const [liked, setLiked] = useState(false)
   const [addedByUser, setAddedByUser] = useState(false)
-  const currentBlog = { ...blog }
+
   const toggleVisibility = () => {
     setVisible(!visible)
     if (user.username === blog.user.username) {
@@ -15,11 +15,17 @@ const Blog = ({ blog, addLikes, user, deleteBlog }) => {
     }
   }
 
-  const newLike = async () => {
-    const newLikes = currentBlog.likes + 1
+  //jos blogin tykkäysnappia painetaan uudestaan, tykkäys poistetaan
+  const handleLike = () => {
+    let newLikes
+    if (!liked) {
+      newLikes = likes + 1
+    } else {
+      newLikes = likes - 1
+    }
     setLikes(newLikes)
-    setLiked(true)
-    addLikes(currentBlog.id, newLikes)
+    updateLikes(blog.id, newLikes)
+    setLiked(!liked)
   }
 
   const deleteCurrentBlog = () => {
@@ -32,7 +38,7 @@ const Blog = ({ blog, addLikes, user, deleteBlog }) => {
       <p className="bloghead">
         {blog.title}, {blog.author}
       </p>
-      <div id="like" onClick={newLike}>
+      <div id="like" onClick={handleLike}>
         {liked ? (
           <img src="fullheart.png" alt="full heart" width="17" />
         ) : (
@@ -64,7 +70,7 @@ const Blog = ({ blog, addLikes, user, deleteBlog }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  addLikes: PropTypes.func.isRequired,
+  updateLikes: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   deleteBlog: PropTypes.func.isRequired,
 }
