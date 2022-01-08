@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import CreateBlog from './CreateBlog'
 
 describe('<CreateBlog/>', () => {
-  test('', () => {
+  test('the correct data is given to addNew on submit', () => {
     const addNew = jest.fn()
     const component = render(<CreateBlog addNew={addNew} />)
 
