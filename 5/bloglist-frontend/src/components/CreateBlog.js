@@ -32,7 +32,7 @@ const CreateBlog = ({ addNew }) => {
         ></input>
         <label htmlFor="author">Author</label>
         <input
-          id="author "
+          id="author"
           type="text"
           required
           value={author}

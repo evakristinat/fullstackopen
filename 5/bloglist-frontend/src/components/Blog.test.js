@@ -51,9 +51,9 @@ describe('<Blog/>', () => {
 
   test('calls updateLikes twice when plus/minus is clicked twice', () => {
     //funktiokutsujen tutkimiseen tarkoitettu feikki funktio
-    const mockHandler = jest.fn()
+    const updateLikes = jest.fn()
 
-    component = render(<Blog blog={blog} user={user} updateLikes={mockHandler} />)
+    component = render(<Blog blog={blog} user={user} updateLikes={updateLikes} />)
 
     const plus = component.getByText('+')
     fireEvent.click(plus)
@@ -63,6 +63,6 @@ describe('<Blog/>', () => {
     fireEvent.click(like)
 
     //tarkistaa että updateLikes-funktiota kutsutaan kahdesti
-    expect(mockHandler.mock.calls).toHaveLength(2)
+    expect(updateLikes.mock.calls).toHaveLength(2)
   })
 })
