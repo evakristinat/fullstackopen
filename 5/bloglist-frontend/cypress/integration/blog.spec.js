@@ -8,7 +8,14 @@ describe('Blog app', function () {
       password: 'verysecret',
     }
 
+    const user1 = {
+      username: 'late',
+      name: 'Lauri',
+      password: 'nopassword',
+    }
+
     cy.request('POST', 'http://localhost:3003/api/users/', user)
+    cy.request('POST', 'http://localhost:3003/api/users/', user1)
 
     cy.visit('http://localhost:3000')
   })
@@ -50,6 +57,11 @@ describe('Blog app', function () {
         localStorage.setItem('loggedUser', JSON.stringify(response.body))
         cy.visit('http://localhost:3000')
       })
+      cy.createBlog({
+        title: 'Testing',
+        author: 'Test Author',
+        url: 'https://docs.cypress.io/guides/overview/why-cypress',
+      })
     })
 
     it('A blog can be created', function () {
@@ -63,27 +75,33 @@ describe('Blog app', function () {
     })
 
     it('Created blog can be liked and unliked', function () {
-      cy.request({
-        url: 'http://localhost:3000/api/blogs',
-        method: 'POST',
-        body: {
-          title: 'Testing, Testing',
-          author: 'Test Author',
-          url: 'https://docs.cypress.io/guides/overview/why-cypress',
-        },
-        headers: {
-          Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('loggedUser')).token
-          }`,
-        },
+      cy.createBlog({
+        title: 'Now This',
+        author: 'The Author',
+        url: 'https://docs.cypress.io',
       })
-      cy.visit('http://localhost:3000')
-      cy.get('#showmore').click()
-      cy.get('#likeinfo').should('contain', '0 likes')
-      cy.get('#like').click()
+      /*tykkäys on mahdollista jo ennen lisätietojen avausta,
+      joten oikea blogi on haettava aina ennen sen painamista*/
+      cy.contains('Now This').parent().find('#showmore').click()
+      cy.contains('Now This').parent().find('#like').click()
       cy.get('#likeinfo').should('contain', '1 like')
-      cy.get('#like').click()
+      cy.contains('Now This').parent().find('#like').click()
       cy.get('#likeinfo').should('contain', '0 likes')
+    })
+
+    it('A blog can be deleted by creator', function () {
+      cy.contains('Testing').parent().find('#showmore').click()
+      /*tässä ei ole pakollista enää hakea ensin 'Testing', koska vain se on avattu
+      ja näin ollen vain se sisältää poistonapin*/
+      cy.get('html').should('contain', 'delete blog')
+      cy.get('.deletebutton').click()
+      cy.get('html').should('not.contain', 'Testing')
+    })
+
+    it('A blog cannot be deleted by other users', function () {
+      cy.login({ username: 'late', password: 'nopassword' })
+      cy.contains('Testing').parent().find('#showmore').click()
+      cy.get('html').should('not.contain', 'delete blog')
     })
   })
 })
