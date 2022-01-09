@@ -51,7 +51,9 @@ const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
       {visible ? (
         <div id="moreinfo">
           <p>{blog.url}</p>
-          <p>{likes} likes</p>
+          <p id="likeinfo">
+            {likes} {likes === 1 ? 'like' : 'likes'}
+          </p>
           <div className="lastline">
             <p style={{ display: 'inline' }}>
               added by {blog.user.name ? blog.user.name : blog.user.username}
