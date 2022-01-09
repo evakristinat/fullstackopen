@@ -50,13 +50,15 @@ const App = () => {
   }
 
   const getBlogs = async () => {
-    try {
-      const res = await blogService.getAll()
-      res.sort((a, b) => b.likes - a.likes)
-      setBlogs(res)
-    } catch (exception) {
-      setError('Data could not be reached')
-      console.log(exception.message)
+    if (user) {
+      try {
+        const res = await blogService.getAll()
+        res.sort((a, b) => b.likes - a.likes)
+        setBlogs(res)
+      } catch (exception) {
+        setError('Data could not be reached')
+        console.log(exception.message)
+      }
     }
   }
 
@@ -116,7 +118,7 @@ const App = () => {
 
   useEffect(() => {
     getBlogs()
-  }, [])
+  }, [user])
 
   return (
     <>
