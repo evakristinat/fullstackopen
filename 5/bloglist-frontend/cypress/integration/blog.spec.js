@@ -36,7 +36,7 @@ describe('Blog app', function () {
       cy.contains('Logged in as Eeva')
     })
 
-    it('fails with wrong credentials', function () {
+    it('Login fails with wrong credentials', function () {
       cy.get('#username').type('eva')
       cy.get('#password').type('very')
       cy.get('form').submit()
@@ -102,6 +102,35 @@ describe('Blog app', function () {
       cy.login({ username: 'late', password: 'nopassword' })
       cy.contains('Testing').parent().find('#showmore').click()
       cy.get('html').should('not.contain', 'delete blog')
+    })
+
+    /*Testissä on kolme blogia. Viimeisenä luodusta, eli listan viimeisestä, tykätään
+    kahdesti ja odotetaan sen sivun päivityksen jälkeen olevan listan ensimmäinen.*/
+    it.only('Blogs are shown in order of likes', function () {
+      cy.createBlog({
+        title: 'Now This',
+        author: 'The Author',
+        url: 'https://docs.cypress.io',
+      })
+      cy.createBlog({
+        title: 'Hello',
+        author: 'World',
+        url: 'https://fullstackopen.com/osa5/end_to_end_testaus',
+      })
+      cy.get('.bloghead').last().should('contain', 'Hello, World')
+      cy.contains('Now This').parent().find('#like').click()
+      cy.contains('Hello').parent().find('#like').click()
+      /*Sivu päivitetään, jotta lisää tykkäyksiä voidaan antaa, koska kahdesti
+      tykkääminen muuten poistaa tykkäyksen*/
+      cy.visit('http://localhost:3000')
+      cy.contains('Hello').parent().find('#like').click()
+      //blogit sortataan kun sivu ladataan uudestaan
+      cy.visit('http://localhost:3000')
+      //avataan kaikki lisätiedot tykkäyksien tarkastelua varten
+      cy.get('.bloghead').parent().find('#showmore').as('plus')
+      cy.get('@plus').click({ multiple: true })
+
+      cy.get('.bloghead').first().should('contain', 'Hello, World')
     })
   })
 })
