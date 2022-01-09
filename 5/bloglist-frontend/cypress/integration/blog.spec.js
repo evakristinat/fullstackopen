@@ -40,4 +40,26 @@ describe('Blog app', function () {
       cy.get('html').should('not.contain', 'Logged in as Eeva')
     })
   })
+
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.request('POST', 'http://localhost:3000/api/login', {
+        username: 'evakristinat',
+        password: 'verysecret',
+      }).then((response) => {
+        localStorage.setItem('loggedUser', JSON.stringify(response.body))
+        cy.visit('http://localhost:3000')
+      })
+    })
+
+    it('A blog can be created', function () {
+      cy.contains('add new blog').click()
+      cy.get('#title').type('This is a test')
+      cy.get('#author').type('The Tester')
+      cy.get('#url').type('https://fullstackopen.com/osa5/end_to_end_testaus')
+      cy.get('form').submit()
+      cy.get('.success').should('contain', 'This is a test')
+      cy.get('.bloghead').should('contain', 'This is a test, The Tester')
+    })
+  })
 })
