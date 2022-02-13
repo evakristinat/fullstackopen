@@ -10,7 +10,6 @@ const AnecdoteList = () => {
   const vote = (id, content) => {
     dispatch(addVote(id))
     dispatch(voted(content))
-    console.log('vote', id)
   }
 
   return (

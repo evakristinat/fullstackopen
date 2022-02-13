@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState =
-  'Please vote for your favourite anecdote or create a new one'
+const initialState = {
+  text: 'Please vote for your favourite anecdote or create a new one',
+  visible: false,
+}
 
 const notificationSlice = createSlice({
   name: 'notification',
@@ -9,10 +11,16 @@ const notificationSlice = createSlice({
   reducers: {
     voted(state, action) {
       const anecdote = action.payload
-      return (state = `You voted for '${anecdote}'`)
+      return (state = { text: `You voted for '${anecdote}'`, visible: true })
+    },
+    created(state, action) {
+      return (state = { text: `You created '${action.payload}'`, visible: true })
+    },
+    hide(state) {
+      return (state = { ...initialState, visible: false })
     },
   },
 })
 
-export const { voted } = notificationSlice.actions
+export const { voted, created, hide } = notificationSlice.actions
 export default notificationSlice.reducer
