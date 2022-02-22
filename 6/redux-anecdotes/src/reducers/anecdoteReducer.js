@@ -1,11 +1,6 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-]
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = []
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
@@ -17,15 +12,12 @@ const asObject = (anecdote) => {
   }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
-
-const anecdoteReducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
-
-  switch (action.type) {
-    case 'VOTE':
-      const id = action.data.id
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    addVote(state, action) {
+      const id = action.payload
       const anecdoteToUpdate = state.find((a) => a.id === id)
       const updatedAnectode = {
         ...anecdoteToUpdate,
@@ -34,27 +26,17 @@ const anecdoteReducer = (state = initialState, action) => {
       return state.map((anecdote) =>
         anecdote.id === id ? updatedAnectode : anecdote
       )
-    case 'CREATE':
-      const anecdote = action.data.anecdote
-      const anecdoteObj = (asObject(anecdote))
+    },
+    create(state, action) {
+      const anecdote = action.payload
+      const anecdoteObj = asObject(anecdote)
       return [...state, anecdoteObj]
-    default:
-      return state
-  }
-}
+    },
+    setAnecdotes(state, action) {
+      return action.payload
+    },
+  },
+})
 
-export const addVote = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id },
-  }
-}
-
-export const create = (anecdote) => {
-  return {
-    type: 'CREATE',
-    data: { anecdote },
-  }
-}
-
-export default anecdoteReducer
+export const { addVote, create, setAnecdotes } = anecdoteSlice.actions
+export default anecdoteSlice.reducer
