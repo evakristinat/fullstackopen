@@ -14,7 +14,10 @@ const notificationSlice = createSlice({
       return (state = { text: `You voted for '${anecdote}'`, visible: true })
     },
     created(state, action) {
-      return (state = { text: `You created '${action.payload}'`, visible: true })
+      return (state = {
+        text: `You created '${action.payload}'`,
+        visible: true,
+      })
     },
     hide(state) {
       return (state = { ...initialState, visible: false })

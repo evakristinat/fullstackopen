@@ -18,7 +18,7 @@ const AnecdoteForm = () => {
       <h2>create new</h2>
       <form onSubmit={createAnecdote}>
         <div>
-          <input name="newAnecdote" />
+          <input name="newAnecdote" maxLength={200} />
         </div>
         <button type="submit">create</button>
       </form>

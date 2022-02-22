@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { hide } from '../reducers/notificationReducer'
 
@@ -11,6 +10,8 @@ const Notification = () => {
     borderWidth: 1,
   }
 
+  /*Poistaa ilmoitukset viiden sekunnin jälkeen, aikaa tulisi lyhentää,
+  koska tässä tapauksessa ilmoituksesta on tehty osittain blokkaava toiminto*/
   if (notification.visible) {
     setTimeout(() => dispatch(hide()), 5000)
   }

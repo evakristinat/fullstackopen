@@ -1,16 +1,33 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { addVote } from '../reducers/anecdoteReducer'
-import { voted } from '../reducers/notificationReducer'
+import { voted, hide } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdotes)
+  const filter = useSelector((state) => state.filter)
+  const notification = useSelector((state) => state.notification)
   const dispatch = useDispatch()
-  const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes)
 
+  /* Äänestäminen onnistuu vasta kun edellinen ilmoitus on poistunut, eli 5s edellisen toiminnon jälkeen.
+  Tämä estää ilmoituksien sekoittumisen ja spämmäyksen.*/
   const vote = (id, content) => {
-    dispatch(addVote(id))
-    dispatch(voted(content))
+    if (!notification.visible) {
+      dispatch(addVote(id))
+      dispatch(voted(content))
+    }
   }
+
+  /*Filteröinti ja sorttaaminen liittyvät vain esitykseen, niillä ei ole vaikutusta storen dataan.*/
+  const filteredAnecdotes = filter
+    ? [...anecdotes].filter((anecdote) => {
+        const text = anecdote.content.toLowerCase()
+        return text.indexOf(filter.toLowerCase()) !== -1
+      })
+    : anecdotes
+
+  const sortedAnecdotes = [...filteredAnecdotes].sort(
+    (a, b) => b.votes - a.votes
+  )
 
   return (
     <>
