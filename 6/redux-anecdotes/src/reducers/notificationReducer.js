@@ -1,29 +1,53 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  text: 'Please vote for your favourite anecdote or create a new one',
+  text: '',
   visible: false,
+  timeoutID: null,
 }
 
 const notificationSlice = createSlice({
   name: 'notification',
   initialState,
   reducers: {
-    voted(state, action) {
-      const anecdote = action.payload
-      return (state = { text: `You voted for '${anecdote}'`, visible: true })
-    },
-    created(state, action) {
+    notify(state, action) {
+      const text = action.payload
       return (state = {
-        text: `You created '${action.payload}'`,
+        ...state,
+        text: text,
         visible: true,
       })
     },
     hide(state) {
-      return (state = { ...initialState, visible: false })
+      return (state = { ...initialState })
+    },
+    setTimeoutID(state, action) {
+      const id = action.payload
+      return (state = { ...state, timeoutID: id })
     },
   },
 })
 
-export const { voted, created, hide } = notificationSlice.actions
+export const { notify, hide, setTimeoutID } = notificationSlice.actions
+
+export const setNotification = (text, time = 3) => {
+  return (dispatch, getState) => {
+    const state = getState()
+    const timeoutID = state.notification.timeoutID
+    /*timeoutID on truthy vain jos edellinen notifikaatio on vielä näkyvissä, eli
+    poiston hoitava timeout ei ole vielä tehnyt tehtäväänsä. Jos näin on, sen
+    timeoutin toiminta keskeytetään, jotta uuden notifikaation timeout toimii oikein*/
+    if (timeoutID) {
+      clearTimeout(state.notification.timeoutID)
+    }
+    dispatch(notify(text))
+
+    const newTimeoutID = setTimeout(() => {
+      dispatch(hide())
+    }, time * 1000)
+
+    dispatch(setTimeoutID(newTimeoutID))
+  }
+}
+
 export default notificationSlice.reducer
